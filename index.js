@@ -6,7 +6,11 @@ import userRoutes from './routes/userRoutes.js'
 const app = express();
 
 // Routing
-app.use('/',userRoutes);
+app.use('/auth',userRoutes);
+
+// Habilitar Pug
+app.set('view engine','pug')
+app.set('views','./views')
 
 // Definir puerto
 const port = 3000;
