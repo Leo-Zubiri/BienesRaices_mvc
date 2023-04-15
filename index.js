@@ -12,6 +12,9 @@ app.use('/auth',userRoutes);
 app.set('view engine','pug')
 app.set('views','./views')
 
+// Carpeta Pública
+app.use(express.static('public'));
+
 // Definir puerto
 const port = 3000;
 
