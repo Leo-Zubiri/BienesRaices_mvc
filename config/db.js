@@ -1,12 +1,14 @@
 import { Sequelize	 } from "sequelize";
+import dotenv from 'dotenv';
+dotenv.config({path:'.env'})
 
 const db = new Sequelize(
-    'bienesraices_node_mvc',
-    'root',
-    'root',
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASS ?? '',
     {
-        host: 'localhost',
-        port: 3306,
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT,
         dialect: 'mysql',
         define: {
             timestamps: true
