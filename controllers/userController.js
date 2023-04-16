@@ -1,12 +1,13 @@
 const formularioLogin = (req,res)=>{
     res.render('auth/login',{
-        autenticado: true,
-        user: 'Leo Zubiri'
+        pagina: 'Iniciar Sesión'
     });
 }
 
 const formularioRegistro = (req,res)=>{
-    res.render('auth/register',{});
+    res.render('auth/register',{
+        pagina: 'Crear Cuenta'
+    });
 }
 
 export {
