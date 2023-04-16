@@ -1,9 +1,18 @@
 
 import express from 'express';
 import userRoutes from './routes/userRoutes.js'
+import db from './config/db.js'
 
 // Crear la app
 const app = express();
+
+// DB Connection
+try {
+    await db.authenticate()
+    console.log('\nConexión correcta a la base de datos')
+} catch (error) {
+    console.log(error)
+}
 
 // Routing
 app.use('/auth',userRoutes);
