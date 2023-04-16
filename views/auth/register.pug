@@ -45,7 +45,11 @@ block contenido
                         name="password-confirmation"
                     )
 
+                div.flex.items-center.justify-between 
+                    a.text-gray-500.text-xs.underline(href="/auth/login") Iniciar Sesión
+                    a.text-gray-500.text-xs.underline(href="/auth/forgot-password") Olvidé mi Password
+
                 input(
                     type="submit" value="Crear Cuenta"
-                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-md"
+                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-md cursor-pointer"
                 )
