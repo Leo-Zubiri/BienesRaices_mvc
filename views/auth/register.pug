@@ -8,14 +8,14 @@ block contenido
 
         div.mt-8.mx-auto.max-w-md
          div.bg-white.py-8.px-4.shadow
-            form.space-y-6
+            form.space-y-6(method="POST" action="/auth/register")
                 div
-                    label.block.text-sm.uppercase.text-gray-600.mb-2.font-bold(for="nombre") Nombre
+                    label.block.text-sm.uppercase.text-gray-600.mb-2.font-bold(for="name") Nombre
 
                     input#nombre.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(
                         placeholder="Tu nombre"
                         type="text"
-                        name="nombre"
+                        name="name"
                     )
 
                 div
@@ -42,7 +42,7 @@ block contenido
                     input#nombre.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(
                         placeholder="Repite tu password"
                         type="password"
-                        name="password-confirmation"
+                        name="password_confirmation"
                     )
 
                 div.flex.items-center.justify-between 
