@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node ./index.js",
     "server": "nodemon index.js",
-    "css": "postcss public/css/tailwind.css -o public/css/app.css --watch"
+    "css": "postcss public/css/tailwind.css -o public/css/app.css --watch",
+    "dev": "npm run server & npm run css"
   },
   "author": "Leo Zubiri",
   "license": "ISC",

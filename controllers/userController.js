@@ -1,4 +1,5 @@
 import {check, validationResult} from 'express-validator'
+import { generarID } from '../helpers/tokens.js';
 
 import Usuario from "../models/Usuario.js";
 
@@ -57,7 +58,7 @@ const registrar = async (req,res) => {
         const {name,email,password} = req.body;
         const usuario = await Usuario.create({
             name,email,password,
-            token: 123
+            token: generarID()
         });
         res.json(usuario)
     }
