@@ -25,15 +25,12 @@ const registrar = async (req,res) => {
     await check('name').notEmpty().withMessage('Nombre no puede ir vacío').run(req)
     await check('email').isEmail().withMessage('No es un email válido').run(req)
     await check('password').isLength({min: 6}).withMessage('Password debe de ser de al menos 6 caracteres').run(req)
-    await check('password_confirmation').equals('password').withMessage('Los Passwords no coinciden').run(req)
+    await check('password_confirmation').equals(req.body.password).withMessage('Los Passwords no coinciden').run(req)
 
     let errores = validationResult(req)
 
-    // Verificar que el resultado esté vacío
-    if(errores.isEmpty()){
-        const usuario = await Usuario.create(req.body);
-        res.json(usuario)
-    }else{
+    // Verificar que no existan errores
+    if(!errores.isEmpty()){
         res.render('auth/register',{
             pagina: 'Crear Cuenta',
             errores: errores.array(),
@@ -43,8 +40,24 @@ const registrar = async (req,res) => {
             }
         });
     }
-        
-
+    
+    // Verificar que no exista un usuario con el mismo correo
+    const existeUsuario = await Usuario.findOne({ where: {email:req.body.email}})
+    if(existeUsuario){
+        res.render('auth/register',{
+            pagina: 'Crear Cuenta',
+            errores: [{msg: 'Existe un usuario con este correo'}],
+            usuario: {
+                name: req.body.name,
+                email: req.body.email
+            }
+        });
+       
+    } else {
+        const usuario = await Usuario.create(req.body);
+        res.json(usuario)
+    }
+    
 
 }
 
