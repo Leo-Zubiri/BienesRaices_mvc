@@ -60,7 +60,13 @@ const registrar = async (req,res) => {
             name,email,password,
             token: generarID()
         });
-        res.json(usuario)
+        
+
+        // Mostrar mensaje para que confirme el correo
+        res.render('templates/mensaje',{
+            pagina: 'Cuenta creada correctamente',
+            mensaje: 'Se envió un email de confirmación para dar de alta tu cuenta'
+        });
     }
     
 
