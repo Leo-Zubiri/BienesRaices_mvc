@@ -21,7 +21,7 @@
         html: `
             <p>Hola ${name}, comprueba tu cuenta en Bienes Raices</p>
             <p>Tu cuenta ya esta lista, solo debes confirmarla en el siguiente enlace:
-            <a href="">Confirmar cuenta</a></p>
+            <a href="${process.env.BACKEND_URL}:${process.env.PORT ?? 3000}/auth/confirm/${token}">Confirmar cuenta</a></p>
 
             <p>Si tu no creaste esta cuenta puedes ignorar el mensaje</p>
         `

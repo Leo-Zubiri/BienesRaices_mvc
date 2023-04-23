@@ -82,7 +82,9 @@ const registrar = async (req,res) => {
 }
 
 const confirmar = (req,res) => {
-    console.log('confirmando...')
+    const {token} = req.params;
+    console.log('confirmando...',token)
+    
 }
 
 export {
