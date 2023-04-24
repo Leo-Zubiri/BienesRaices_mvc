@@ -33,7 +33,7 @@ const registrar = async (req,res) => {
 
     // Verificar que no existan errores
     if(!errores.isEmpty()){
-        res.render('auth/register',{
+        return res.render('auth/register',{
             pagina: 'Crear Cuenta',
             errores: errores.array(),
             usuario: {
@@ -46,7 +46,7 @@ const registrar = async (req,res) => {
     // Verificar que no exista un usuario con el mismo correo
     const existeUsuario = await Usuario.findOne({ where: {email:req.body.email}})
     if(existeUsuario){
-        res.render('auth/register',{
+        return res.render('auth/register',{
             pagina: 'Crear Cuenta',
             errores: [{msg: 'Existe un usuario con este correo'}],
             usuario: {
@@ -81,10 +81,31 @@ const registrar = async (req,res) => {
 
 }
 
-const confirmar = (req,res) => {
+const confirmar = async (req,res) => {
     const {token} = req.params;
-    console.log('confirmando...',token)
     
+    const usuario = await Usuario.findOne({ where: {token} });
+    
+    // Verificar si el token es válido
+    if(!usuario){
+        return res.render('auth/confirm-account',{
+            pagina: 'Error al confirmar tu cuenta',
+            mensaje: 'Hubo un error al confirmar tu cuenta, intenta de nuevo',
+            error: true
+        });
+    }
+
+    // Confirmar la cuenta
+    usuario.token = null;
+    usuario.confirmed = true;
+
+    await usuario.save();
+
+    res.render('auth/confirm-account',{
+        pagina: 'Cuenta confirmada',
+        mensaje: 'La cuenta se confirmó correctamente',
+    });
+
 }
 
 export {
