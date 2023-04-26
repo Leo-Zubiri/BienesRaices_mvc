@@ -19,8 +19,27 @@ const formularioRegistro = (req,res)=>{
 
 const formularioOlvidePassword = (req,res)=>{
     res.render('auth/forgot-password',{
-        pagina: 'Recupera el Acceso a tu Cuenta'
+        pagina: 'Recupera el Acceso a tu Cuenta',
+        csrfToken: req.csrfToken()
     });
+}
+
+const resetPassword = async (req,res) => { 
+    // Validation
+    await check('email').isEmail().withMessage('No es un email válido').run(req)
+
+    let errores = validationResult(req)
+
+    // Verificar que no existan errores
+    if(!errores.isEmpty()){
+        return res.render('auth/forgot-password',{
+            pagina: 'Recupera el acceso a tu cuenta',
+            csrfToken: req.csrfToken(),
+            errores: errores.array(),
+        });
+    }
+
+
 }
 
 const registrar = async (req,res) => { 
@@ -116,5 +135,6 @@ export {
     formularioRegistro,
     formularioOlvidePassword,
     registrar,
-    confirmar
+    confirmar,
+    resetPassword
 }
