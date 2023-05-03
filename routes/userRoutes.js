@@ -22,8 +22,8 @@ router.post('/register',registrar);
 router.get('/confirm/:token',confirmar);
 
 // Almacenar nuevo password
-router.get('/olvide-password/:token', comprobarToken);
-router.post('/olvide-password/:token', nuevoPassword);
+router.get('/forgot-password/:token', comprobarToken);
+router.post('/forgot-password/:token', nuevoPassword);
 
 
 export default router;
