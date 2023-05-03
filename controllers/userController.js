@@ -9,7 +9,8 @@ import Usuario from "../models/Usuario.js";
 
 const formularioLogin = (req,res)=>{
     res.render('auth/login',{
-        pagina: 'Iniciar Sesión'
+        pagina: 'Iniciar Sesión',
+        csrfToken: req.csrfToken()
     });
 }
 
@@ -215,6 +216,24 @@ const confirmar = async (req,res) => {
 
 }
 
+const autenticar = async (req,res) => { 
+    
+    // Validar campos que llegan del request
+    await check('email').isEmail().withMessage('No es un email válido').run(req)
+    await check('password').notEmpty().withMessage('Password es obligatorio').run(req)
+
+    let errores = validationResult(req)
+    
+    // Verificar que no existan errores
+    if(!errores.isEmpty()){
+        return res.render('auth/login',{
+            pagina: 'Iniciar Sesión',
+            csrfToken: req.csrfToken(),
+            errores: errores.array(),
+        });
+    }
+}
+
 export {
     formularioLogin,
     formularioRegistro,
@@ -223,5 +242,6 @@ export {
     confirmar,
     resetPassword,
     comprobarToken,
-    nuevoPassword
+    nuevoPassword,
+    autenticar
 }

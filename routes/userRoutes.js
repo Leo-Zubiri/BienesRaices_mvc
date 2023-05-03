@@ -7,12 +7,14 @@ import {
     confirmar,
     resetPassword,
     comprobarToken,
-    nuevoPassword
+    nuevoPassword,
+    autenticar
 } from "../controllers/userController.js";
 
 const router = express.Router();
 
 router.get('/login',formularioLogin);
+router.post('/login',autenticar);
 router.get('/register',formularioRegistro); 
 
 router.get('/forgot-password',formularioOlvidePassword); 
