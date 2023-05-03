@@ -1,4 +1,5 @@
 import {check, validationResult} from 'express-validator'
+import bcrypt from 'bcrypt'
 import { generarID } from '../helpers/tokens.js';
 import { emailRegister,
         emailForgottenPassword
@@ -86,9 +87,45 @@ const comprobarToken = async (req,res) => {
     }
 
     // Mostrar formulario para modificar el nuevo password
+    return res.render('auth/reset-password',{
+        pagina: 'Reestablece tu password',
+        csrfToken: req.csrfToken()
+    });
 }
 
-const nuevoPassword = (req,res) => { }
+const nuevoPassword = async (req,res) => { 
+    await check('password').isLength({min: 6}).withMessage('Password debe de ser de al menos 6 caracteres').run(req)
+
+    let errores = validationResult(req)
+
+    // Verificar que no existan errores
+    if(!errores.isEmpty()){
+        return res.render('auth/reset-password',{
+            pagina: 'Reestablece tu Password',
+            csrfToken: req.csrfToken(),
+            errores: errores.array(),
+        });
+    }
+
+    const {token} = req.params;
+    const {password} = req.body;
+
+    // Identificar quien hace el cambio
+    const usuario = await Usuario.findOne({where:{token}});
+
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    usuario.password = await bcrypt.hash(password,salt);
+    usuario.token = null;
+
+    await usuario.save();
+
+    res.render('auth/confirm-account',{
+        pagina: 'Password Reestablecido',
+        mensaje: 'El password se guardó correctamente', 
+        csrfToken: req.csrfToken()
+    })
+}
 
 const registrar = async (req,res) => { 
     // Validation
