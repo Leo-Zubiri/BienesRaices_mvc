@@ -255,7 +255,15 @@ const autenticar = async (req,res) => {
     }
 
     // Revisar password
+    if(!usuario.verifyPassword(password)){
+        return res.render('auth/login',{
+            pagina: 'Iniciar Sesión',
+            csrfToken: req.csrfToken(),
+            errores: [{msg: 'Password Incorrecto'}],
+        });
+    }
 
+    // Autenticar Usuario
 }
 
 export {
