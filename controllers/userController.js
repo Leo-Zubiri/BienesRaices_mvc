@@ -232,6 +232,30 @@ const autenticar = async (req,res) => {
             errores: errores.array(),
         });
     }
+
+    // Comprobar si el usuario existe
+    const {email,password} = req.body;
+
+    const usuario = await Usuario.findOne({where:{email}})
+    if(!usuario){
+        return res.render('auth/login',{
+            pagina: 'Iniciar Sesión',
+            csrfToken: req.csrfToken(),
+            errores: [{msg: 'El usuario no existe'}],
+        });
+    }
+
+    // Comprobar si el usuario está verificado
+    if(!usuario.confirmed){
+        return res.render('auth/login',{
+            pagina: 'Iniciar Sesión',
+            csrfToken: req.csrfToken(),
+            errores: [{msg: 'Cuenta no verificada'}],
+        });
+    }
+
+    // Revisar password
+
 }
 
 export {
